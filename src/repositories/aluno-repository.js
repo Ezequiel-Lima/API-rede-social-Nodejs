@@ -12,3 +12,11 @@ exports.create = async (data) => {
     var aluno = new Aluno(data);
     await aluno.save();
 }
+
+exports.patch = async (id, data) => {
+    await Aluno.findByIdAndUpdate(id, {
+        $set: {
+            ativo: data.ativo
+        }
+    });
+}

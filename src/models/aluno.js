@@ -18,7 +18,8 @@ const schema = new Schema({
     },
     celular: {
         type: Number,
-        required: true
+        required: true,
+        unique: true
     },
     telefone: {
         type: Number,
@@ -30,11 +31,16 @@ const schema = new Schema({
     },
     escolaridade: {
         type: String,
-        required: true
+        required: false
     },
     dataDeNascimento: {
         type: Date,
         required: true,
+    },
+    ativo: {
+        type: Boolean,
+        required: true,
+        default: true
     },
     cursos: [{
         type: String,
@@ -47,21 +53,21 @@ const schema = new Schema({
     endereco: {
         bairro: {
             type: String,
-            required: true
+            required: false
         },
         cidade: {
             type: String,
-            required: true,
+            required: false,
             enum: ['São paulo', 'Rio de janeiro'],
             default: 'São paulo'
         },
         estado: {
             type: String,
-            required: true,
+            required: false,
             enum: ['SP', 'RJ'],
             default: 'SP'
         },
     }
 });
 
-module.exports = mongoose.model('Customer', schema);
+module.exports = mongoose.model('Aluno', schema);

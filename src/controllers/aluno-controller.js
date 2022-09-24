@@ -19,15 +19,19 @@ exports.post = async (req, res, next) => {
     let contract = new ValidationContract();
     contract.hasMinLen(req.body.nome, 3, 'O nome deve conter pelo menos 3 caracteres');
     contract.isEmail(req.body.email, 'E-mail inválido');
+    contract.isTelephone(req.body.celular, 'Celular inválido');
+
+    if (!contract.isValid()) {
+        res.status(400).send(contract.errors()).end();
+        return;
+    }
 
     try {
         await repository.create({
             nome: req.body.nome,
             email: req.body.email,
             celular: req.body.celular,
-            escolaridade: req.body.escolaridade, // retirar
-            dataDeNascimento: req.body.dataDeNascimento,
-            endereco: req.body.endereco //retirar requirdo
+            dataDeNascimento: req.body.dataDeNascimento
         });
         res.status(201).send({
             message: 'Aluno cadastrado com sucesso'
@@ -38,3 +42,17 @@ exports.post = async (req, res, next) => {
         });
     }
 }
+
+exports.patch = async (req, res, next) => {
+    try {
+        await repository.patch(req.params.id, req.body);
+        res.status(201).send({
+            message: 'Aluno inativado com sucesso!'
+        });
+    } catch (error) {
+        res.status(500).send({
+            message: 'Falha ao processar sua requisição'
+        });
+    }
+}
+
