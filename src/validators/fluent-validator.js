@@ -33,6 +33,12 @@ ValidationContract.prototype.isEmail = (value, message) => {
 }
 
 ValidationContract.prototype.isTelephone = (value, message) => {
+    var reg = new RegExp(/^\(?[1-9]{2}\)? ?(?:[2-8]|9?[1-9])[0-9]{3}\-?[0-9]{4}$/);
+    if (!reg.test(value))
+        errors.push({ message: message });
+}
+
+ValidationContract.prototype.isCell = (value, message) => {
     var reg = new RegExp(/^\(?[1-9]{2}\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$/);
     if (!reg.test(value))
         errors.push({ message: message });
