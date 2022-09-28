@@ -37,8 +37,9 @@ exports.post = async (req, res, next) => {
             message: 'Aluno cadastrado com sucesso'
         });
     } catch (error) {
-        res.status(500).send({
-            message: 'Falha ao processar sua requisição'
+        const status = error.statusCode || 500;
+        res.status(status).send({
+            message: error.message
         });
     }
 }

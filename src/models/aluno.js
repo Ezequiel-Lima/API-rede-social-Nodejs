@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const uniqueValidator = require('mongoose-unique-validator');
 
 const schema = new Schema({
     nome: {
@@ -70,4 +71,5 @@ const schema = new Schema({
     }
 });
 
+schema.plugin(uniqueValidator, { message: '{VALUE} já cadastrado!' });
 module.exports = mongoose.model('Aluno', schema);
