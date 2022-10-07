@@ -3,6 +3,8 @@
 const ValidationContract = require('../validators/fluent-validator');
 const repository = require('../repositories/aluno-repository');
 const guid = require('guid');
+const md5 = require('md5');
+const emailService = require('../services/email-service');
 
 exports.get = async (req, res, next) => {
     try {
@@ -20,6 +22,7 @@ exports.post = async (req, res, next) => {
     contract.hasMinLen(req.body.nome, 3, 'O nome deve conter pelo menos 3 caracteres');
     contract.isEmail(req.body.email, 'E-mail inválido');
     contract.isCell(req.body.celular, 'Celular inválido');
+    contract.isRequired(req.body.senha, 'Senha inválida');
 
     if (!contract.isValid()) {
         res.status(400).send(contract.errors()).end();
@@ -30,9 +33,16 @@ exports.post = async (req, res, next) => {
         await repository.create({
             nome: req.body.nome,
             email: req.body.email,
+            senha: md5(req.body.senha + global.SALT_KEY),
             celular: req.body.celular,
             dataDeNascimento: req.body.dataDeNascimento
         });
+
+        await emailService.send(
+            req.body.email,
+            'Bem vindo ao Node Store',
+            global.EMAIL_TMPL.replace('{0}', req.body.nome));
+
         res.status(201).send({
             message: 'Aluno cadastrado com sucesso'
         });
@@ -63,6 +73,7 @@ exports.put = async (req, res, next) => {
     contract.isEmail(req.body.email, 'E-mail inválido');
     contract.isCell(req.body.celular, 'Celular inválido');
     contract.isTelephone(req.body.telefone, 'Telefone inválido');
+    contract.isRequired(req.body.senha, 'Senha inválida');
 
     if (!contract.isValid()) {
         res.status(400).send(contract.errors()).end();

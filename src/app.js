@@ -3,12 +3,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const config = require('./config');
 
 const app = express();
 const router = express.Router();
 
 // Connecta ao banco
-mongoose.connect('mongodb+srv://fatec_group:KULFvu1lRdCo3yCZ@nodestorage.sduiuix.mongodb.net');
+mongoose.connect(config.connectionString);
 
 // Carregar os Models
 const Product = require('./models/product');

@@ -13,6 +13,10 @@ const schema = new Schema({
         type: String,
         required: true
     },
+    senha: {
+        type: String,
+        required: true
+    },
     experiencia: {
         type: String,
         required: false
