@@ -3,6 +3,6 @@ global.EMAIL_TMPL = 'Olá, <strong>{0}</strong>, seja bem vindo à Networking!';
 
 module.exports = {
     connectionString: 'mongodb+srv://fatec_group:KULFvu1lRdCo3yCZ@nodestorage.sduiuix.mongodb.net',
-    sendgridKey: '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',
+    sendgridKey: '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',
     userImagesBlobConnectionString: 'TBD'
 }

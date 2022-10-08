@@ -9,5 +9,12 @@ exports.send = async (to, subject, body) => {
         from: 'joao.lima94@fatec.sp.gov.br',
         subject: subject,
         html: body
-    });
-}
+    })
+    .then((response) => {
+        console.log(response[0].statusCode)
+        console.log(response[0].headers)
+    })
+    .catch((error) => {
+        console.error(error)
+    })
+};
