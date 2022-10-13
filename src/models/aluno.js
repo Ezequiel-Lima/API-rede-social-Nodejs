@@ -17,10 +17,6 @@ const schema = new Schema({
         type: String,
         required: true
     },
-    experiencia: {
-        type: String,
-        required: false
-    },
     celular: {
         type: Number,
         required: true,
@@ -47,6 +43,10 @@ const schema = new Schema({
         required: true,
         default: true
     },
+    experiencias: [{
+        type: String,
+        required: false
+    }],
     cursos: [{
         type: String,
         required: false

@@ -28,7 +28,7 @@ exports.update = async (id, data) => {
         $set: {
             nome: data.nome,
             email: data.email,
-            experiencia: data.experiencia,
+            experiencias: data.experiencias,
             celular: data.celular,
             telefone: data.telefone,
             linkedin: data.linkedin,
