@@ -17,6 +17,7 @@ const Product = require('./models/product');
 const Customer = require('./models/customer');
 const Order = require('./models/order');
 const Aluno = require('./models/aluno');
+const Empresa = require('./models/empresa');
 
 // Carregar as Rotas
 const indexRoute = require('./routes/index-route');
@@ -24,6 +25,7 @@ const productRoute = require('./routes/product-route');
 const customerRoute = require('./routes/customer-route');
 const orderRoute = require('./routes/order-route');
 const alunoRoute = require('./routes/aluno-route');
+const empresaRoute = require('./routes/empresa-route');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -42,5 +44,6 @@ app.use('/products', productRoute);
 app.use('/customers', customerRoute);
 app.use('/orders', orderRoute);
 app.use('/alunos', alunoRoute);
+app.use('/empresas', empresaRoute);
 
 module.exports = app;

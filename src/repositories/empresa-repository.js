@@ -1,22 +1,23 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const Aluno = mongoose.model('Aluno');
+const Empresa = mongoose.model('Empresa');
+const md5 = require('md5');
 
 exports.get = async () => {
-    const res = await Aluno.find({
+    const res = await Empresa.find({
         ativo: true
     });
     return res;
 }
 
 exports.create = async (data) => {
-    var aluno = new Aluno(data);
-    await aluno.save();
+    var empresa = new Empresa(data);
+    await empresa.save();
 }
 
 exports.patch = async (id, data) => {
-    await Aluno.findByIdAndUpdate(id, {
+    await Empresa.findByIdAndUpdate(id, {
         $set: {
             ativo: data.ativo
         }
@@ -24,20 +25,19 @@ exports.patch = async (id, data) => {
 }
 
 exports.update = async (id, data) => {
-    await Aluno.findByIdAndUpdate(id, {
+    await Empresa.findByIdAndUpdate(id, {
         $set: {
             nome: data.nome,
             email: data.email,
-            senha: data.senha,
-            experiencias: data.experiencias,
+            senha: md5(data.senha + global.SALT_KEY),
             celular: data.celular,
             telefone: data.telefone,
             linkedin: data.linkedin,
-            escolaridade: data.escolaridade,
-            dataDeNascimento: data.dataDeNascimento,
-            cursos: data.cursos,
+            dataDeFundacao: data.dataDeFundacao,
+            sobre: data.sobre,
+            vagas: data.vagas,
             sites: data.sites,
-            endereco: data.endereco
+            sedesDaEmpresa: data.sedesDaEmpresa
         }
     });
 }
