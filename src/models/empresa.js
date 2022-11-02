@@ -35,6 +35,11 @@ const schema = new Schema({
         required: true,
         default: true
     },
+    imagem: {
+        type: String,
+        required: false,
+        trim: true
+    },
     dataDeFundacao: {
         type: Date,
         required: true,

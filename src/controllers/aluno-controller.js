@@ -23,7 +23,7 @@ exports.get = async (req, res, next) => {
 exports.post = async (req, res, next) => {
     let contract = new ValidationContract();
     contract.hasMinLen(req.body.nome, 3, 'O nome deve conter o mínimo de 3 caracteres');
-    contract.hasMaxLen(req.body.nome, 150, 'O nome deve conter o máximo de 150 caracteres')
+    contract.hasMaxLen(req.body.nome, 150, 'O nome deve conter o máximo de 150 caracteres');
     contract.isEmail(req.body.email, 'E-mail inválido');
     contract.isCell(req.body.celular, 'Celular inválido');
     contract.isRequired(req.body.senha, 'Senha inválida');
@@ -82,6 +82,7 @@ exports.put = async (req, res, next) => {
     contract.isTelephone(req.body.telefone, 'Telefone inválido');
     contract.isRequired(req.body.senha, 'Senha inválida');
     contract.isRequired(req.body.imagem, 'Imagem obrigatório');
+    contract.isRequired(req.body.dataDeNascimento, 'Data de nascimento obrigatório');
 
     if (!contract.isValid()) {
         res.status(400).send(contract.errors()).end();
