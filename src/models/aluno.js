@@ -43,6 +43,11 @@ const schema = new Schema({
         required: true,
         default: true
     },
+    imagem: {
+        type: String,
+        required: false,
+        trim: true
+    },
     experiencias: [{
         type: String,
         required: false

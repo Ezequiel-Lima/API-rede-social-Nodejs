@@ -4,5 +4,5 @@ global.EMAIL_TMPL = 'Olá, <strong>{0}</strong>, seja bem vindo à Networking!';
 module.exports = {
     connectionString: 'mongodb+srv://fatec_group:KULFvu1lRdCo3yCZ@nodestorage.sduiuix.mongodb.net',
     sendgridKey: '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',
-    userImagesBlobConnectionString: 'TBD'
+    userImagesBlobConnectionString: 'DefaultEndpointsProtocol=https;AccountName=networkingfatec;AccountKey=n/UtnOtPo4WOtTaJPIhm3hHJwhiw5jY6srhtE4fjLobV21svk5ZRtNAKbyEoj5T7xQKEhNPAEeEn+AStT8YG2A==;EndpointSuffix=core.windows.net'
 }

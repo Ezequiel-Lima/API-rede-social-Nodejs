@@ -5,6 +5,8 @@ const repository = require('../repositories/aluno-repository');
 const guid = require('guid');
 const md5 = require('md5');
 const sgMail = require('../services/email-service');
+const azure = require('azure-storage');
+const config = require('../config');
 
 
 exports.get = async (req, res, next) => {
@@ -20,10 +22,12 @@ exports.get = async (req, res, next) => {
 
 exports.post = async (req, res, next) => {
     let contract = new ValidationContract();
-    contract.hasMinLen(req.body.nome, 3, 'O nome deve conter pelo menos 3 caracteres');
+    contract.hasMinLen(req.body.nome, 3, 'O nome deve conter o mínimo de 3 caracteres');
+    contract.hasMaxLen(req.body.nome, 150, 'O nome deve conter o máximo de 150 caracteres')
     contract.isEmail(req.body.email, 'E-mail inválido');
     contract.isCell(req.body.celular, 'Celular inválido');
     contract.isRequired(req.body.senha, 'Senha inválida');
+    contract.isRequired(req.body.dataDeNascimento, 'Data de nascimento obrigatório');
 
     if (!contract.isValid()) {
         res.status(400).send(contract.errors()).end();
@@ -71,11 +75,13 @@ exports.patch = async (req, res, next) => {
 
 exports.put = async (req, res, next) => {
     let contract = new ValidationContract();
-    contract.hasMinLen(req.body.nome, 3, 'O nome deve conter pelo menos 3 caracteres');
+    contract.hasMinLen(req.body.nome, 3, 'O nome deve conter o mínimo de 3 caracteres');
+    contract.hasMaxLen(req.body.nome, 150, 'O nome deve conter o máximo de 150 caracteres')
     contract.isEmail(req.body.email, 'E-mail inválido');
     contract.isCell(req.body.celular, 'Celular inválido');
     contract.isTelephone(req.body.telefone, 'Telefone inválido');
     contract.isRequired(req.body.senha, 'Senha inválida');
+    contract.isRequired(req.body.imagem, 'Imagem obrigatório');
 
     if (!contract.isValid()) {
         res.status(400).send(contract.errors()).end();
@@ -88,6 +94,7 @@ exports.put = async (req, res, next) => {
             message: 'Aluno atualizado com sucesso!'
         });
     } catch (error) {
+        console.log(error);
         res.status(500).send({
             message: 'Falha ao processar sua requisição'
         });

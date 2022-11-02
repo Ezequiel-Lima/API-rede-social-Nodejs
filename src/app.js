@@ -27,8 +27,8 @@ const orderRoute = require('./routes/order-route');
 const alunoRoute = require('./routes/aluno-route');
 const empresaRoute = require('./routes/empresa-route');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: false }));
 
 // Habilita o CORS
 app.use(function (req, res, next) {
