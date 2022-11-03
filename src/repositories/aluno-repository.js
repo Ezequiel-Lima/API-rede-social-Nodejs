@@ -63,3 +63,11 @@ exports.update = async (id, data) => {
         }
     });
 }
+
+exports.authenticate = async(data) => {
+    const res = await Aluno.findOne({
+        email: data.email,
+        senha: data.senha
+    });
+    return res;
+}

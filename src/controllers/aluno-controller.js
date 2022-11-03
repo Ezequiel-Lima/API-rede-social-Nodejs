@@ -5,9 +5,7 @@ const repository = require('../repositories/aluno-repository');
 const guid = require('guid');
 const md5 = require('md5');
 const sgMail = require('../services/email-service');
-const azure = require('azure-storage');
-const config = require('../config');
-
+const authService = require('../services/auth-service');
 
 exports.get = async (req, res, next) => {
     try {
@@ -102,3 +100,37 @@ exports.put = async (req, res, next) => {
     }
 }
 
+exports.authenticate = async (req, res, next) => {
+    try {
+        const aluno = await repository.authenticate({
+            email: req.body.email,
+            senha: md5(req.body.senha + global.SALT_KEY)
+        });
+
+        if(!aluno){
+            res.status(404).send({
+                message: 'Usuário ou senha inválidos'
+            });
+            return;
+        }
+
+        const token = await authService.generateToken({
+            id: aluno.id,
+            email: aluno.email,
+            nome: aluno.nome
+        });
+        
+        res.status(201).send({
+            token: token,
+            data: {
+                email: aluno.email,
+                nome: aluno.nome
+            }
+        });
+    } catch (error) {
+        const status = error.statusCode || 500;
+        res.status(status).send({
+            message: error.message
+        });
+    }
+}

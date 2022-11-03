@@ -5,6 +5,7 @@ const repository = require('../repositories/empresa-repository');
 const guid = require('guid');
 const md5 = require('md5');
 const sgMail = require('../services/email-service');
+const authService = require('../services/auth-service');
 
 exports.get = async (req, res, next) => {
     try {
@@ -98,3 +99,37 @@ exports.put = async (req, res, next) => {
     }
 }
 
+exports.authenticate = async (req, res, next) => {
+    try {
+        const empresa = await repository.authenticate({
+            email: req.body.email,
+            senha: md5(req.body.senha + global.SALT_KEY)
+        });
+
+        if(!empresa){
+            res.status(404).send({
+                message: 'Usuário ou senha inválidos'
+            });
+            return;
+        }
+
+        const token = await authService.generateToken({
+            id: empresa.id,
+            email: empresa.email,
+            nome: empresa.nome
+        });
+        
+        res.status(201).send({
+            token: token,
+            data: {
+                email: empresa.email,
+                nome: empresa.nome
+            }
+        });
+    } catch (error) {
+        const status = error.statusCode || 500;
+        res.status(status).send({
+            message: error.message
+        });
+    }
+}
