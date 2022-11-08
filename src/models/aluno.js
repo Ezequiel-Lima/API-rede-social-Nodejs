@@ -48,6 +48,12 @@ const schema = new Schema({
         required: false,
         trim: true
     },
+    tag: {
+        type: String,
+        required: true,
+        enum: 'Aluno',
+        default: 'Aluno'
+    },
     experiencias: [{
         type: String,
         required: false

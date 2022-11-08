@@ -48,6 +48,12 @@ const schema = new Schema({
         type: String,
         required: false
     },
+    tag: {
+        type: String,
+        required: true,
+        enum: 'Empresa',
+        default: 'Empresa'
+    },
     vagas: [{
         type: String,
         required: false
