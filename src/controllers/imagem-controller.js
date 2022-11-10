@@ -5,6 +5,7 @@ const repository = require('../repositories/imagem-repository');
 const azure = require('azure-storage');
 const guid = require('guid');
 const config = require('../config');
+const authService = require('../services/auth-service');
 
 exports.get = async (req, res, next) => {
     try {
@@ -19,6 +20,16 @@ exports.get = async (req, res, next) => {
 
 exports.post = async (req, res, next) => {
     try {
+        // Recuper o token
+        const token = req.body.token || req.query.token || req.headers['x-access-token'];
+        const data = await authService.decodeToken(token);
+
+        if (data.tag != 'Empresa') {
+            return res.status(400).json({
+                message: "Falha ao processar sua requisição 05X7"
+            });
+        }
+
         // Cria o Blob Service
         const blobSvc = azure.createBlobService(config.userImagesBlobConnectionString);
 
@@ -37,10 +48,10 @@ exports.post = async (req, res, next) => {
             }
         });
 
-        const teste = await repository.create({
-            empresa: req.body.empresa,
+        await repository.create({
+            empresa: data.id,
             imagem: 'https://networkingfatec.blob.core.windows.net/imagens/' + filename
-        }); console.log(teste);
+        });
 
         res.status(201).send({
             message: 'Imagem cadastrada com sucesso'

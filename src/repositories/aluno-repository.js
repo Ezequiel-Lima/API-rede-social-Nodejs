@@ -71,3 +71,8 @@ exports.authenticate = async(data) => {
     });
     return res;
 }
+
+exports.getByID = async(id) => {
+    const res = await Aluno.findById(id);
+    return res;
+}

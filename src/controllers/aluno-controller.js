@@ -137,3 +137,41 @@ exports.authenticate = async (req, res, next) => {
         });
     }
 }
+
+exports.refreshToken = async (req, res, next) => {
+    try {
+        const token = req.body.token || req.query.token || req.headers['x-access-token'];
+        const data = await authService.decodeToken(token);
+
+        const aluno = await repository.getByID(data.id);
+
+        if(!aluno){
+            res.status(404).send({
+                message: 'Cliente não encontrado'
+            });
+            return;
+        }
+
+        const tokenData = await authService.generateToken({
+            id: aluno.id,
+            email: aluno.email,
+            nome: aluno.nome,
+            tag: aluno.tag
+        });
+        
+        res.status(201).send({
+            token: tokenData,
+            data: {
+                id: aluno.id,
+                email: aluno.email,
+                nome: aluno.nome,
+                tag: aluno.tag
+            }
+        });
+    } catch (error) {
+        const status = error.statusCode || 500;
+        res.status(status).send({
+            message: error.message
+        });
+    }
+}

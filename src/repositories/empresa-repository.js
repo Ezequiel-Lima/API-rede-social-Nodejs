@@ -71,3 +71,8 @@ exports.authenticate = async(data) => {
     });
     return res;
 }
+
+exports.getByID = async(id) => {
+    const res = await Empresa.findById(id);
+    return res;
+}
