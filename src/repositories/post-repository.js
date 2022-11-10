@@ -5,8 +5,8 @@ const Post = mongoose.model('Post');
 
 exports.get = async () => {
     const res = await Post.find({ ativo: true })
-    .populate({path:'aluno', select:['nome','tag']})
-    .populate({path:'empresa', select:['nome','tag']})
+    .populate({path:'aluno', select:['nome','tag', 'imagem']})
+    .populate({path:'empresa', select:['nome','tag', 'imagem']})
     return res;
 }
 

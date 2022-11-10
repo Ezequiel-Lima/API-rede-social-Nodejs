@@ -117,14 +117,17 @@ exports.authenticate = async (req, res, next) => {
         const token = await authService.generateToken({
             id: aluno.id,
             email: aluno.email,
-            nome: aluno.nome
+            nome: aluno.nome,
+            tag: aluno.tag
         });
         
         res.status(201).send({
             token: token,
             data: {
+                id: aluno.id,
                 email: aluno.email,
-                nome: aluno.nome
+                nome: aluno.nome,
+                tag: aluno.tag
             }
         });
     } catch (error) {

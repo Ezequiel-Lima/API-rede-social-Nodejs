@@ -15,14 +15,14 @@ const schema = new Schema({
         ref: 'Empresa',
         required: false
     },
+    like: {
+        type: Number,
+        required: true,
+        default: 0
+    },
     descricao: {
         type: String,
         required: true
-    },
-    imagem: {
-        type: String,
-        required: false,
-        trim: true
     },
     ativo: {
         type: Boolean,

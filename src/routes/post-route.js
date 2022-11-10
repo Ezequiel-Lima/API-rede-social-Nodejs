@@ -6,7 +6,7 @@ const controller = require('../controllers/post-controller');
 const authService = require('../services/auth-service');
 
 router.get('/', controller.get);
-router.post('/', controller.post);
-router.patch('/:id', controller.patch);
+router.post('/', authService.authorize, controller.post);
+router.patch('/:id', authService.authorize, controller.patch);
 
 module.exports = router;

@@ -3,9 +3,10 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/imagem-controller');
+const authService = require('../services/auth-service');
 
 router.get('/', controller.get);
-router.post('/', controller.post);
-router.patch('/:id', controller.patch);
+router.post('/', authService.authorize, controller.post);
+router.patch('/:id', authService.authorize, controller.patch);
 
 module.exports = router;
