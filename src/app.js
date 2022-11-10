@@ -13,9 +13,6 @@ const router = express.Router();
 mongoose.connect(config.connectionString);
 
 // Carregar os Models
-const Product = require('./models/product');
-const Customer = require('./models/customer');
-const Order = require('./models/order');
 const Aluno = require('./models/aluno');
 const Empresa = require('./models/empresa');
 const Imagem = require('./models/imagem');
@@ -23,9 +20,6 @@ const Post = require('./models/post');
 
 // Carregar as Rotas
 const indexRoute = require('./routes/index-route');
-const productRoute = require('./routes/product-route');
-const customerRoute = require('./routes/customer-route');
-const orderRoute = require('./routes/order-route');
 const alunoRoute = require('./routes/aluno-route');
 const empresaRoute = require('./routes/empresa-route');
 const imagemRoute = require('./routes/imagem-route');
@@ -44,9 +38,6 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', indexRoute);
-app.use('/products', productRoute);
-app.use('/customers', customerRoute);
-app.use('/orders', orderRoute);
 app.use('/alunos', alunoRoute);
 app.use('/empresas', empresaRoute);
 app.use('/imagens', imagemRoute);
