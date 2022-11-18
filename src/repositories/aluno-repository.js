@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Aluno = mongoose.model('Aluno');
 const azure = require('azure-storage');
 const guid = require('guid');
+const md5 = require('md5');
 const config = require('../config');
 
 exports.get = async () => {
@@ -49,7 +50,7 @@ exports.update = async (id, data) => {
         $set: {
             nome: data.nome,
             email: data.email,
-            senha: data.senha,
+            senha: md5(data.senha + global.SALT_KEY),
             experiencias: data.experiencias,
             celular: data.celular,
             telefone: data.telefone,
